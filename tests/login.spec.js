@@ -11,9 +11,16 @@ test.describe("ログインフォームのバリデーション", () => {
     await page.fill('input[type="email"]', "test@example.com");
     await page.fill('input[type="password"]', "abc123");
     await page.click('button[type="submit"]');
-
-    await expect(page.locator(".email-error")).not.toBeVisible();
-    await expect(page.locator(".password-error")).not.toBeVisible();
+    const emailInput = await page.locator('input[type="email"]');
+    const passwordInput = await page.locator('input[type="password"]');
+    const isEmailValid = await emailInput.evaluate(
+      (element) => element.validity.valid
+    );
+    const isPasswordValid = await passwordInput.evaluate(
+      (element) => element.validity.valid
+    );
+    expect(isEmailValid).toBe(true);
+    expect(isPasswordValid).toBe(true);
   });
 
   test("メールアドレスが空である場合、バリデーションが効く", async ({
