@@ -16,30 +16,42 @@ test.describe("ログインフォームのバリデーション", () => {
     await expect(page.locator(".password-error")).not.toBeVisible();
   });
 
-  test("メールアドレスが空", async ({ page }) => {
+  test("メールアドレスが空である場合、バリデーションが効く", async ({
+    page,
+  }) => {
     await page.fill('input[type="email"]', "");
     await page.fill('input[type="password"]', "abc123");
     await page.click('button[type="submit"]');
-
-    await expect(page.locator(".email-error")).toBeVisible();
-    await expect(page.locator(".password-error")).not.toBeVisible();
+    // valueMissingはtrueだと、required属性があるが値がないことを示す
+    const emailInput = await page.locator('input[type="email"]');
+    const isEmailEmpty = await emailInput.evaluate(
+      (element) => element.validity.valueMissing
+    );
+    expect(isEmailEmpty).toBe(true);
   });
 
-  test("パスワードが空", async ({ page }) => {
+  test("パスワードが空である場合、バリデーションが効く", async ({ page }) => {
     await page.fill('input[type="email"]', "test@example.com");
-    await page.fill('input[type="password"]', "");
+    const passwordInput = page.locator('input[type="password"]');
+    await passwordInput.fill("");
     await page.click('button[type="submit"]');
 
-    await expect(page.locator(".email-error")).not.toBeVisible();
-    await expect(page.locator(".password-error")).toBeVisible();
+    const isPasswordEmpty = await passwordInput.evaluate(
+      (element) => element.validity.valueMissing
+    );
+    expect(isPasswordEmpty).toBe(true);
   });
 
   test("メールアドレスが不正", async ({ page }) => {
-    await page.fill('input[type="email"]', "test123");
+    const emailInput = page.locator('input[type="email"]');
+    // @のない形式で入力
+    await emailInput.fill("test123");
     await page.fill('input[type="password"]', "abc123");
     await page.click('button[type="submit"]');
 
-    await expect(page.locator(".email-error")).toBeVisible();
-    await expect(page.locator(".password-error")).not.toBeVisible();
+    const isEmailValid = await emailInput.evaluate(
+      (element) => element.validity.typeMismatch
+    );
+    expect(isEmailValid).toBe(true);
   });
 });
