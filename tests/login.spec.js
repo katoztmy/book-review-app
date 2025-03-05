@@ -42,7 +42,7 @@ test.describe("ログインフォームのバリデーション", () => {
     expect(isPasswordEmpty).toBe(true);
   });
 
-  test("メールアドレスが不正", async ({ page }) => {
+  test("メールアドレスが不正な場合、バリデーションが効く", async ({ page }) => {
     const emailInput = page.locator('input[type="email"]');
     // @のない形式で入力
     await emailInput.fill("test123");
