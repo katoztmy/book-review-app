@@ -8,33 +8,82 @@ export const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
-  const onSubmit = (data) => {
-    // 画像が選択されている場合
+  const onSubmit = async (data) => {
+    // ユーザー登録apiを行う、name,email,passwordを受け取り、tokenを返す
+    // railway.bookreview.techtrain.devに対して上記の3つをリクエストボディに含め、POSTリクエストを送信
+    const userData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+    const response = await fetch(
+      "https://railway.bookreview.techtrain.dev/users",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(userData),
+      }
+    );
+    // レスポンスエラーの場合の処理
+    if (!response.ok) {
+      const errorData = await response.json();
+      switch (response.status) {
+        case 409:
+          setError("email", {
+            type: "duplicated",
+            message: errorData.ErrorMessageJP,
+          });
+          break;
+        case (403, 500, 503):
+          alert(errorData.ErrorMessageJP);
+          break;
+      }
+    }
+
     if (data.picture && data.picture.length > 0) {
-      // 画像のサイズが1MB以下かつjpegかpngの場合
       if (
         data.picture[0].type !== "image/jpeg" &&
         data.picture[0].type !== "image/png"
       ) {
-        alert("jpegかpngの画像を選択してください");
+        setError("picture", {
+          type: "noSelected",
+          message: "jpegかpngの画像を選択してください",
+        });
         return;
       }
       if (data.picture[0].size > MAX_UPLOAD_SIZE) {
         alert("3MB以下の画像を選択してください");
+        setError("picture", {
+          type: "overSize",
+          message: "3MB以下の画像を選択してください",
+        });
         return;
       }
+      console.log(data.picture[0]);
       if (data.picture[0].size <= MAX_FILE_SIZE) {
-        // そのままアイコンアップロードapiを叩く
+        const formDate = new formDate();
+        formDate.append("picture", data.picture[0]);
+        const response = await fetch(
+          "https://railway.bookreview.techtrain.dev/uploads",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formDate,
+          }
+        );
+        const res = await response.json();
       } else {
-        // 画像を圧縮してアップロード
         new Compressor(data.picture[0], {
-          quality: 0.6,
-          success(result) {
-            // 圧縮後の画像をアップロード
-          },
+          quality: 0.3,
+          success(result) {},
           error(err) {
-            console.log(err.message);
+            console.log(`${err.message}、ですがユーザーの登録は成功しました。`);
           },
         });
       }
@@ -46,6 +95,11 @@ export const SignUp = () => {
       <h1>新規アカウント作成</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
+          {errors.picture && (
+            <p style={{ color: "red", fontSize: "0.8rem", margin: "4px 0" }}>
+              {errors.picture.message}
+            </p>
+          )}
           <label htmlFor="picture">プロフィール画像</label>
           <input
             type="file"
@@ -60,6 +114,11 @@ export const SignUp = () => {
             type="text"
             id="name"
           />
+          {errors.email && (
+            <p style={{ color: "red", fontSize: "0.8rem", margin: "4px 0" }}>
+              {errors.email.message}
+            </p>
+          )}
           <label htmlFor="email">メールアドレス</label>
           <input
             {...register("email", { required: true })}
