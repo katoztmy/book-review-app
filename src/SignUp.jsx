@@ -1,5 +1,7 @@
 import Compressor from "compressorjs";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router";
+import "./SignUp.css";
 
 export const SignUp = () => {
   const MAX_FILE_SIZE = 1048576;
@@ -134,6 +136,9 @@ export const SignUp = () => {
           <button type="submit">登録</button>
         </div>
       </form>
+      <Link to="/login" className="signin-link">
+        ログインはこちら
+      </Link>
     </>
   );
 };
