@@ -2,3 +2,21 @@
   display: block;
   margin-top: 20px;
 }
+
+form {
+  width: 400px;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+  height: 18px;
+  display: block;
+}
+
+.error-message {
+  display: block;
+  height: 30px;
+  color: red;
+  font-weight: bold;
+}
