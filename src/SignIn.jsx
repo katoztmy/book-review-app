@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import "./SignIn.css";
 import { useState } from "react";
 const Spinner = () => <div className="spinner"></div>;
 export const SignIn = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -65,6 +67,10 @@ export const SignIn = () => {
         setError("form", { type: "manual", message: errMsg });
         return;
       }
+
+      localStorage.setItem("token", responseBody.token);
+
+      navigate("/books");
     } catch (error) {
       setError("form", {
         type: "manual",
