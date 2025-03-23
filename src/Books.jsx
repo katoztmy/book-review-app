@@ -1,51 +1,25 @@
-import { useEffect, useState } from "react";
-import "./Books.css";
-
-export const Books = () => {
-  const [books, setBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          "https://railway.bookreview.techtrain.dev/books?offset=0",
-          {
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            method: "GET",
-          }
-        );
-        const data = await response.json();
-        setBooks(data);
-      } catch (error) {
-        console.error("本の取得に失敗しました:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchReviews();
-  }, []);
-
+export const BooksReview = (props) => {
+  const { books } = props;
   return (
-    <div className="container">
-      <h1 className="font-bold">レビュー一覧</h1>
-      {isLoading ? (
-        <p>読み込み中...</p>
-      ) : (
-        <ul>
-          {books.map((book) => (
-            <li key={book.id}>
-              <h2>{book.title}</h2>
-              <p>{book.author}</p>
-              <p>{book.impressions}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <ul className="grid lg:grid-cols-3 gap-6">
+      {books.map((book) => (
+        <li key={book.id} className="bg-white hover:shadow-xl  p-6">
+          <h2 className="text-xl font-semibold mb-2 text-gray-800">
+            {book.title}
+          </h2>
+          <p className="text-blue-600 hover:underline mb-3 text-sm">
+            <a href={book.url}>{book.url}</a>
+          </p>
+          <p>レビュワー: {book.reviewer}</p>
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <p className="text-gray-700">
+              {book.review.length > 40
+                ? book.review.substring(0, 40) + "..."
+                : book.review}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 };
