@@ -39,7 +39,6 @@ export const SignIn = () => {
       const responseBody = await response.json();
 
       if (!response.ok) {
-        console.log(responseBody);
         let errMsg;
         switch (responseBody.ErrorCode) {
           case 400:
