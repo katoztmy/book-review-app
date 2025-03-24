@@ -114,7 +114,9 @@ export const SignIn = () => {
           {errors.password && errors.password.message}
           {errors.email && <div>{errors.email.message}</div>}
         </div>
-        <button type="submit">ログイン</button>
+        <button type="submit" className="text-white">
+          ログイン
+        </button>
       </form>
       <Link to="/signup" className="signup-link">
         アカウント作成はこちら
