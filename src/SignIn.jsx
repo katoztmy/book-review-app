@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import "./SignIn.css";
 import { useState } from "react";
-const Spinner = () => <div className="spinner"></div>;
+
 export const SignIn = () => {
   const navigate = useNavigate();
 
@@ -13,8 +13,7 @@ export const SignIn = () => {
     setError,
     clearErrors,
   } = useForm();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [_isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (data) => {
     clearErrors();

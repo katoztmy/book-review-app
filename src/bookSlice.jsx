@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { set } from "react-hook-form";
 
 const initialState = {
   books: [],
   offset: 0,
+  isLoading: false,
 };
 
 const booksSlice = createSlice({
@@ -15,10 +17,13 @@ const booksSlice = createSlice({
     setOffset: (state, action) => {
       state.offset = action.payload;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setBooksData, setOffset } = booksSlice.actions;
+export const { setBooksData, setOffset, setIsLoading } = booksSlice.actions;
 
 export const fetchBooks = (offset) => async (dispatch) => {
   try {

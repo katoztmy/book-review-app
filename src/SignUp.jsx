@@ -1,11 +1,12 @@
 import Compressor from "compressorjs";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import "./SignUp.css";
 
 export const SignUp = () => {
   const MAX_FILE_SIZE = 1048576;
   const MAX_UPLOAD_SIZE = 3145728;
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,8 +14,6 @@ export const SignUp = () => {
     setError,
   } = useForm();
   const onSubmit = async (data) => {
-    // ユーザー登録apiを行う、name,email,passwordを受け取り、tokenを返す
-    // railway.bookreview.techtrain.devに対して上記の3つをリクエストボディに含め、POSTリクエストを送信
     const userData = {
       name: data.name,
       email: data.email,
@@ -30,6 +29,10 @@ export const SignUp = () => {
         body: JSON.stringify(userData),
       }
     );
+    const responseBody = await response.json();
+    const token = responseBody.token;
+    localStorage.setItem("token", token);
+
     // レスポンスエラーの場合の処理
     if (!response.ok) {
       const errorData = await response.json();
@@ -65,7 +68,6 @@ export const SignUp = () => {
         });
         return;
       }
-      console.log(data.picture[0]);
       if (data.picture[0].size <= MAX_FILE_SIZE) {
         const formDate = new formDate();
         formDate.append("picture", data.picture[0]);
@@ -90,6 +92,8 @@ export const SignUp = () => {
         });
       }
     }
+    console.log("aaa");
+    navigate("/books");
   };
 
   return (
