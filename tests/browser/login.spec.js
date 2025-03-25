@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("ログインフォームのバリデーション", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:5173");
+    await page.goto("http://localhost:5173/test");
   });
 
   test("メールアドレス、パスワードが正しく入力され、エラーが表示されない", async ({

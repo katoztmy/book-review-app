@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./App.css";
+import "./Test.css";
 
-function App() {
+function Test() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = (e) => {
@@ -31,4 +31,4 @@ function App() {
   );
 }
 
-export default App;
+export default Test;

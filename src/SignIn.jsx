@@ -2,10 +2,11 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import "./SignIn.css";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "./authSlice";
 
 export const SignIn = () => {
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -13,7 +14,8 @@ export const SignIn = () => {
     setError,
     clearErrors,
   } = useForm();
-  const [_isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (data) => {
     clearErrors();
@@ -67,7 +69,7 @@ export const SignIn = () => {
       }
 
       localStorage.setItem("token", responseBody.token);
-
+      dispatch(login());
       navigate("/books");
     } catch (error) {
       setError("form", {
