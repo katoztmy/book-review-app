@@ -5,13 +5,20 @@ import { Pagination } from "./Pagination";
 import { fetchBooks, setOffset } from "./BookSlice";
 import "./BooksList.css";
 import { Link } from "react-router";
+import { fetchUserInfo } from "./authSlice";
 
 export const BooksList = () => {
   const dispatch = useDispatch();
 
   const { books, offset } = useSelector((state) => state.books);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, userName } = useSelector((state) => state.auth);
   const isLastPage = books.length < 10;
+
+  useEffect(() => {
+    if (isLoggedIn && !userName) {
+      dispatch(fetchUserInfo());
+    }
+  }, [dispatch, userName]);
 
   useEffect(() => {
     dispatch(fetchBooks(offset));
@@ -30,7 +37,9 @@ export const BooksList = () => {
   return (
     <>
       {isLoggedIn ? (
-        <header className="bg-cyan-500 w-screen h-18">user</header>
+        <header className="bg-cyan-500 w-screen h-18">
+          <p className="absolute right-4 top-6">{userName} さん</p>
+        </header>
       ) : (
         <header className="bg-cyan-500 w-screen h-18">
           {
