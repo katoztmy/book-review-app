@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { Pagination } from "./Pagination";
 import { fetchBooks, setOffset } from "./BookSlice";
 import "./BooksList.css";
-import { Link } from "react-router";
-import { fetchUserInfo } from "./authSlice";
+import { Link, useNavigate } from "react-router";
+import { fetchUserInfo, logout } from "./authSlice";
 
 export const BooksList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { books, offset } = useSelector((state) => state.books);
   const { isLoggedIn, userName } = useSelector((state) => state.auth);
@@ -34,11 +35,33 @@ export const BooksList = () => {
     if (offset >= 0) dispatch(setOffset(offset + 1));
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
   return (
     <>
       {isLoggedIn ? (
         <header className="bg-cyan-500 w-screen h-18">
-          <p className="absolute right-4 top-6">{userName} さん</p>
+          <p className="absolute right-40 top-6">
+            <Link to="/profile">{userName}さん</Link>
+          </p>
+          <Link to="/new">
+            <img
+              src="src/assets/1.svg"
+              alt="レビュー投稿画面"
+              width="40"
+              height="40"
+              className="absolute top-4 left-10"
+            />
+          </Link>
+          <button
+            className="text-white absolute right-4 top-4"
+            onClick={handleLogout}
+          >
+            ログアウト
+          </button>
         </header>
       ) : (
         <header className="bg-cyan-500 w-screen h-18">

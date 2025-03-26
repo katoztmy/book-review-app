@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import "./SignIn.css";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "./authSlice";
 
 export const SignIn = () => {
@@ -70,6 +70,7 @@ export const SignIn = () => {
 
       localStorage.setItem("token", responseBody.token);
       dispatch(login());
+      // dispatch(fetchUserInfo());
       navigate("/books");
     } catch (error) {
       setError("form", {
