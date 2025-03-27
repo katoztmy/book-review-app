@@ -10,6 +10,7 @@ import { Provider, useSelector } from "react-redux";
 import { store } from "./store.js";
 import { Profile } from "./Profile.jsx";
 import { NewBook } from "./NewBook.jsx";
+import { BookDetail } from "./BookDetail.jsx";
 
 const PublicRoute = ({ children }) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -51,6 +52,14 @@ createRoot(document.getElementById("root")).render(
             element={
               <PrivateRoute>
                 <NewBook />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="books/:id"
+            element={
+              <PrivateRoute>
+                <BookDetail />
               </PrivateRoute>
             }
           />
