@@ -2,8 +2,22 @@ import React from "react";
 import { Link } from "react-router";
 
 export const BookItem = ({ book }) => {
+  const submitLog = async () => {
+    await fetch("https://railway.bookreview.techtrain.dev/logs", {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      method: "POST",
+      body: JSON.stringify({ selectBookId: book.id }),
+    });
+  };
   return (
-    <Link to={`/books/${book.id}`} state={{ bookData: book }}>
+    <Link
+      to={`/books/${book.id}`}
+      state={{ bookData: book }}
+      onClick={submitLog}
+    >
       <li className="bg-white hover:shadow-lg p-6 min-w-[400px]">
         <h2 className="text-xl font-semibold mb-2 text-gray-800">
           {book.title}

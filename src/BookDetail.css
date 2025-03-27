@@ -1,0 +1,56 @@
+* 全体のレビューコンテナのスタイル */ .review-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.form-group {
+  margin-bottom: 25px;
+  width: 600px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+  font-size: 16px;
+  text-align: left;
+}
+
+.form-group p {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px 15px;
+  margin: 0;
+  background-color: #f9f9f9;
+  min-height: 20px;
+  line-height: 1.5;
+  color: #333;
+  word-break: break-word;
+  text-align: left;
+}
+
+.back-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #3a7bc8;
+}
+
+.review-container > div {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 16px;
+}
