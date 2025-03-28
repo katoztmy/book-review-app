@@ -1,0 +1,3 @@
+# robots.txt - シンプルで有効な形式
+User-agent: *
+Allow: /
