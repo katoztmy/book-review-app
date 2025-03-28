@@ -20,16 +20,27 @@ export const BookItem = ({ book }) => {
     >
       <li className="bg-white hover:shadow-lg p-6 min-w-[400px]">
         <h2 className="text-xl font-semibold mb-2 text-gray-800">
-          {book.title}
+          {book.title.length > 15
+            ? book.title.substring(0, 15) + "..."
+            : book.title}
         </h2>
         <p className="text-blue-600 hover:underline mb-3 text-sm">
-          <span>{book.url}</span>
+          <span>
+            {book.url.length > 20
+              ? book.url.substring(0, 20) + "..."
+              : book.url}
+          </span>
         </p>
-        <p>レビュワー: {book.reviewer}</p>
+        <p>
+          レビュワー:{" "}
+          {book.reviewer.length > 10
+            ? book.reviewer.substring(0, 10) + "..."
+            : book.reviewer}
+        </p>
         <div className="mt-4 pt-4 border-t border-gray-100">
           <p className="text-gray-700">
-            {book.review.length > 40
-              ? book.review.substring(0, 40) + "..."
+            {book.review.length > 20
+              ? book.review.substring(0, 20) + "..."
               : book.review}
           </p>
         </div>

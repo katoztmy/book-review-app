@@ -26,13 +26,15 @@ export const BooksList = () => {
   }, [dispatch, offset]);
 
   const handlePrevious = () => {
+    console.log(offset);
     if (offset === 0) return;
-    if (offset >= 1) dispatch(setOffset(offset - 1));
+    if (offset >= 10) dispatch(setOffset(offset - 10));
   };
 
   const handleNext = () => {
+    console.log(offset);
     if (isLastPage) return;
-    if (offset >= 0) dispatch(setOffset(offset + 1));
+    if (offset >= 0) dispatch(setOffset(offset + 10));
   };
 
   const handleLogout = () => {
