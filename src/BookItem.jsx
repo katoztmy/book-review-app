@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export const BookItem = ({ book }) => {
+  const navigate = useNavigate();
   const submitLog = async () => {
     await fetch("https://railway.bookreview.techtrain.dev/logs", {
       headers: {
@@ -12,13 +13,18 @@ export const BookItem = ({ book }) => {
       body: JSON.stringify({ selectBookId: book.id }),
     });
   };
+  const handleEditClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    navigate(`/edit/${book.id}`, { state: { bookData: book } });
+  };
   return (
     <Link
       to={`/books/${book.id}`}
       state={{ bookData: book }}
       onClick={submitLog}
     >
-      <li className="bg-white hover:shadow-lg p-6 min-w-[400px]">
+      <li className="bg-white hover:shadow-lg p-6 min-w-[400px] h-64">
         <h2 className="text-xl font-semibold mb-2 text-gray-800">
           {book.title.length > 15
             ? book.title.substring(0, 15) + "..."
@@ -37,6 +43,7 @@ export const BookItem = ({ book }) => {
             ? book.reviewer.substring(0, 10) + "..."
             : book.reviewer}
         </p>
+        {book.isMine && <button onClick={handleEditClick}>編集</button>}
         <div className="mt-4 pt-4 border-t border-gray-100">
           <p className="text-gray-700">
             {book.review.length > 20

@@ -11,6 +11,7 @@ import { store } from "./store.js";
 import { Profile } from "./Profile.jsx";
 import { NewBook } from "./NewBook.jsx";
 import { BookDetail } from "./BookDetail.jsx";
+import { BookEdit } from "./BookEdit.jsx";
 
 const PublicRoute = ({ children }) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -60,6 +61,14 @@ createRoot(document.getElementById("root")).render(
             element={
               <PrivateRoute>
                 <BookDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="edit/:id"
+            element={
+              <PrivateRoute>
+                <BookEdit />
               </PrivateRoute>
             }
           />
