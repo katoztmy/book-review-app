@@ -37,13 +37,10 @@ export const NewBook = () => {
 
       const responseBody = await response.json();
 
-      // レスポンスステータスコードに基づいてエラー処理
       if (!response.ok) {
-        // APIから返されたエラーメッセージを使用
         if (responseBody.ErrorMessageJP) {
           setApiError(responseBody.ErrorMessageJP);
         } else {
-          // エラーメッセージがない場合はデフォルトメッセージ
           setApiError("エラーが発生しました。もう一度お試しください。");
         }
         return;

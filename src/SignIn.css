@@ -7,6 +7,10 @@ form {
   width: 400px;
 }
 
+.login-message {
+  font-size: 20px;
+}
+
 .error-text {
   color: red;
   font-size: 12px;

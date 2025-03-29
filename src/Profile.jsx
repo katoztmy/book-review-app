@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo, setUser } from "./authSlice";
+import { useNavigate } from "react-router";
 
 export const Profile = () => {
   const { userName } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUserInfo());
@@ -35,6 +37,7 @@ export const Profile = () => {
       }
 
       alert("ユーザー情報を更新しました");
+      navigate("/books");
     } catch (error) {
       console.error("エラー:", error);
       alert(error.message);

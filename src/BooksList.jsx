@@ -22,8 +22,13 @@ export const BooksList = () => {
   }, [dispatch, userName]);
 
   useEffect(() => {
-    dispatch(fetchBooks(offset));
-  }, [dispatch, offset]);
+    console.log(isLoggedIn);
+    if (isLoggedIn) {
+      dispatch(fetchBooks(offset, "/books"));
+    } else {
+      dispatch(fetchBooks(offset, "/public/books"));
+    }
+  }, [dispatch, offset, isLoggedIn]);
 
   const handlePrevious = () => {
     console.log(offset);

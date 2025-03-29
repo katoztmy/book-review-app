@@ -1,11 +1,9 @@
-import Compressor from "compressorjs";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { useImageUpload } from "./hooks/useImageUpload";
 import "./SignUp.css";
 
 export const SignUp = () => {
-  const MAX_FILE_SIZE = 1048576;
-  const MAX_UPLOAD_SIZE = 3145728;
   const navigate = useNavigate();
   const {
     register,
@@ -13,12 +11,20 @@ export const SignUp = () => {
     formState: { errors },
     setError,
   } = useForm();
+
+  const { uploadImage, isUploading, error: imageError } = useImageUpload();
+
+  if (imageError && !errors.picture) {
+    setError("picture", imageError);
+  }
+
   const onSubmit = async (data) => {
     const userData = {
       name: data.name,
       email: data.email,
       password: data.password,
     };
+
     const response = await fetch(
       "https://railway.bookreview.techtrain.dev/users",
       {
@@ -29,70 +35,39 @@ export const SignUp = () => {
         body: JSON.stringify(userData),
       }
     );
-    const responseBody = await response.json();
-    const token = responseBody.token;
-    localStorage.setItem("token", token);
 
-    // レスポンスエラーの場合の処理
+    const responseBody = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json();
       switch (response.status) {
         case 409:
           setError("email", {
             type: "duplicated",
-            message: errorData.ErrorMessageJP,
+            message: responseBody.ErrorMessageJP,
           });
           break;
-        case (403, 500, 503):
-          alert(errorData.ErrorMessageJP);
+        case 403:
+        case 500:
+        case 503:
+          alert(responseBody.ErrorMessageJP);
           break;
+      }
+      return;
+    }
+
+    const token = responseBody.token;
+    localStorage.setItem("token", token);
+
+    if (data.picture && data.picture.length > 0) {
+      const uploadResult = await uploadImage(data.picture[0], token);
+
+      if (!uploadResult.success) {
+        console.log(
+          `${uploadResult.error}、ですがユーザーの登録は成功しました。`
+        );
       }
     }
 
-    if (data.picture && data.picture.length > 0) {
-      if (
-        data.picture[0].type !== "image/jpeg" &&
-        data.picture[0].type !== "image/png"
-      ) {
-        setError("picture", {
-          type: "noSelected",
-          message: "jpegかpngの画像を選択してください",
-        });
-        return;
-      }
-      if (data.picture[0].size > MAX_UPLOAD_SIZE) {
-        alert("3MB以下の画像を選択してください");
-        setError("picture", {
-          type: "overSize",
-          message: "3MB以下の画像を選択してください",
-        });
-        return;
-      }
-      if (data.picture[0].size <= MAX_FILE_SIZE) {
-        const formDate = new formDate();
-        formDate.append("picture", data.picture[0]);
-        const response = await fetch(
-          "https://railway.bookreview.techtrain.dev/uploads",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formDate,
-          }
-        );
-        const res = await response.json();
-      } else {
-        new Compressor(data.picture[0], {
-          quality: 0.3,
-          success(result) {},
-          error(err) {
-            console.log(`${err.message}、ですがユーザーの登録は成功しました。`);
-          },
-        });
-      }
-    }
-    console.log("aaa");
     navigate("/books");
   };
 
@@ -137,7 +112,9 @@ export const SignUp = () => {
             type="password"
             id="password"
           />
-          <button type="submit">登録</button>
+          <button type="submit" disabled={isUploading}>
+            {isUploading ? "アップロード中..." : "登録"}
+          </button>
         </div>
       </form>
       <Link to="/login" className="signin-link">

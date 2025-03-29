@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
+import "./BookEdit.css";
 
 export const BookEdit = () => {
   const location = useLocation();
@@ -52,7 +53,6 @@ export const BookEdit = () => {
         return;
       }
 
-      alert("レビューを投稿しました！");
       setIsLoading(false);
       navigate("/books");
     } catch (error) {
@@ -113,7 +113,7 @@ export const BookEdit = () => {
             {errors.review && <p className="error-message">感想は必須です</p>}
           </div>
           <button type="submit" disabled={isLoading}>
-            {isLoading ? "送信中..." : "編集"}
+            {isLoading ? "送信中..." : "保存"}
           </button>
         </form>
       </div>

@@ -24,10 +24,11 @@ const booksSlice = createSlice({
 
 export const { setBooksData, setOffset, setIsLoading } = booksSlice.actions;
 
-export const fetchBooks = (offset) => async (dispatch) => {
+export const fetchBooks = (offset, url) => async (dispatch) => {
   try {
+    console.log(url);
     const response = await fetch(
-      `https://railway.bookreview.techtrain.dev/books?offset=${offset}`,
+      `https://railway.bookreview.techtrain.dev${url}?offset=${offset}`,
       {
         headers: {
           "Content-type": "application/json",
