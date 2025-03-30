@@ -22,3 +22,32 @@ export const fetchBookById = async (bookId) => {
 
   return response.json();
 };
+
+export const updateBook = async (bookId, bookData) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("認証に失敗しています。");
+  }
+
+  const response = await fetch(`${API_BASE_URL}/books/${bookId}`, {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    method: "PUT",
+    body: JSON.stringify({
+      title: bookData.title,
+      url: bookData.url,
+      detail: bookData.detail,
+      review: bookData.review,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.ErrorMessageJP);
+  }
+
+  return await response.json();
+};

@@ -1,68 +1,14 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 import "./BookEdit.css";
+import { useBookEdit } from "./hooks/useBookEdit";
 
 export const BookEdit = () => {
   const location = useLocation();
   const bookData = location.state?.bookData;
   console.log(bookData);
-  const [apiError, setApiError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-  useEffect(() => {
-    reset(bookData);
-  }, [reset, bookData.id]);
 
-  const handleReview = async (data) => {
-    setApiError(null);
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(
-        `https://railway.bookreview.techtrain.dev/books/${bookData.id}`,
-        {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          method: "PUT",
-          body: JSON.stringify({
-            title: data.title,
-            url: data.url,
-            detail: data.detail,
-            review: data.review,
-          }),
-        }
-      );
-
-      const responseBody = await response.json();
-
-      if (!response.ok) {
-        if (responseBody.ErrorMessageJP) {
-          setApiError(responseBody.ErrorMessageJP);
-        } else {
-          setApiError("エラーが発生しました。もう一度お試しください。");
-        }
-        return;
-      }
-
-      setIsLoading(false);
-      navigate("/books");
-    } catch (error) {
-      setApiError(
-        "通信エラーが発生しました。ネットワーク接続を確認してください。"
-      );
-      console.error("Error:", error);
-      setIsLoading(false);
-    }
-  };
+  const { apiError, isLoading, handleReview, register, handleSubmit, errors } =
+    useBookEdit(bookData);
 
   return (
     <>
