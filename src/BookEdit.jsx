@@ -5,7 +5,6 @@ import { useBookEdit } from "./hooks/useBookEdit";
 export const BookEdit = () => {
   const location = useLocation();
   const bookData = location.state?.bookData;
-  console.log(bookData);
 
   const { apiError, isLoading, handleReview, register, handleSubmit, errors } =
     useBookEdit(bookData);

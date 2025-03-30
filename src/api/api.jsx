@@ -51,3 +51,28 @@ export const updateBook = async (bookId, bookData) => {
 
   return await response.json();
 };
+
+export const createBook = async (bookData) => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_BASE_URL}/books`, {
+    headers: {
+      "Conten-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    method: "POST",
+    body: JSON.stringify({
+      title: bookData.title,
+      url: bookData.url,
+      detail: bookData.detail,
+      review: bookData.review,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.ErrorMessageJP);
+  }
+
+  return await response.json();
+};
