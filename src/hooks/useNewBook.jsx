@@ -10,6 +10,4 @@ export const useNewBook = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const 
 };
