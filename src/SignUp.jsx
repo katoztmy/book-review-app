@@ -2,9 +2,12 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { useImageUpload } from "./hooks/useImageUpload";
 import "./SignUp.css";
+import { useDispatch } from "react-redux";
+import { login } from "./authSlice";
 
 export const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -57,7 +60,7 @@ export const SignUp = () => {
 
     const token = responseBody.token;
     localStorage.setItem("token", token);
-
+    dispatch(login(token));
     if (data.picture && data.picture.length > 0) {
       const uploadResult = await uploadImage(data.picture[0], token);
 
