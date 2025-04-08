@@ -9,3 +9,6 @@ describe("App", () => {
     screen.debug();
   });
 });
+
+// renderはただレンダリングするだけなので、テストはできていない
+// inputやbuttonの要素がちゃんと存在しているかを確認する

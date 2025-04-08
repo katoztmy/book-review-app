@@ -22,7 +22,6 @@ export const BooksList = () => {
   }, [dispatch, userName]);
 
   useEffect(() => {
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       dispatch(fetchBooks(offset, "/books"));
     } else {

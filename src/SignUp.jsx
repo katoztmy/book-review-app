@@ -60,14 +60,12 @@ export const SignUp = () => {
 
     const token = responseBody.token;
     localStorage.setItem("token", token);
-    dispatch(login(token));
+    dispatch(login());
     if (data.picture && data.picture.length > 0) {
       const uploadResult = await uploadImage(data.picture[0], token);
 
       if (!uploadResult.success) {
-        console.log(
-          `${uploadResult.error}、ですがユーザーの登録は成功しました。`
-        );
+        alert(`${uploadResult.error}、ですがユーザーの登録は成功しました。`);
       }
     }
 

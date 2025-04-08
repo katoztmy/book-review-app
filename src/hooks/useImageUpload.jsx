@@ -42,7 +42,7 @@ export const useImageUpload = () => {
 
     try {
       let fileToUpload = file;
-
+      console.log(fileToUpload);
       if (file.size > MAX_FILE_SIZE) {
         fileToUpload = await new Promise((resolve, reject) => {
           new Compressor(file, {
@@ -54,7 +54,7 @@ export const useImageUpload = () => {
       }
 
       const formData = new FormData();
-      formData.append("picture", fileToUpload);
+      formData.append("icon", fileToUpload);
 
       const response = await fetch(uploadUrl, {
         method: "POST",
