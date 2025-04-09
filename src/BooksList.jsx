@@ -12,14 +12,14 @@ export const BooksList = () => {
   const navigate = useNavigate();
 
   const { books, offset } = useSelector((state) => state.books);
-  const { isLoggedIn, userName } = useSelector((state) => state.auth);
+  const { isLoggedIn, userName, iconUrl } = useSelector((state) => state.auth);
   const isLastPage = books.length < 10;
 
   useEffect(() => {
     if (isLoggedIn && !userName) {
       dispatch(fetchUserInfo());
     }
-  }, [dispatch, userName]);
+  }, [dispatch, isLoggedIn, userName]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -30,13 +30,11 @@ export const BooksList = () => {
   }, [dispatch, offset, isLoggedIn]);
 
   const handlePrevious = () => {
-    console.log(offset);
     if (offset === 0) return;
     if (offset >= 10) dispatch(setOffset(offset - 10));
   };
 
   const handleNext = () => {
-    console.log(offset);
     if (isLastPage) return;
     if (offset >= 0) dispatch(setOffset(offset + 10));
   };
@@ -50,9 +48,16 @@ export const BooksList = () => {
     <>
       {isLoggedIn ? (
         <header className="bg-cyan-500 w-screen h-18">
-          <p className="absolute right-40 top-6">
+          <div className="absolute right-40 top-6 flex items-center">
+            {iconUrl && (
+              <img
+                src={iconUrl}
+                alt="プロフィール画像"
+                className="w-8 h-8 rounded-full mr-2"
+              />
+            )}
             <Link to="/profile">{userName}さん</Link>
-          </p>
+          </div>
           <Link to="/new">
             <img
               src="src/assets/1.svg"

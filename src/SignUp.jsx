@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { useImageUpload } from "./hooks/useImageUpload";
 import "./SignUp.css";
 import { useDispatch } from "react-redux";
-import { login } from "./authSlice";
+import { fetchUserInfo, login } from "./authSlice";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ export const SignUp = () => {
         alert(`${uploadResult.error}、ですがユーザーの登録は成功しました。`);
       }
     }
-
+    await dispatch(fetchUserInfo());
     navigate("/books");
   };
 
@@ -109,10 +109,18 @@ export const SignUp = () => {
           />
           <label htmlFor="password">パスワード</label>
           <input
-            {...register("password", { required: true })}
+            {...register("password", {
+              required: "パスワードを入力してください",
+              minLength: {
+                value: 4,
+                message: "パスワードは4文字以上です。",
+              },
+            })}
             type="password"
             id="password"
           />
+          {errors.password && <div>{errors.password.message}</div>}
+          {errors.email && <div>{errors.email.message}</div>}
           <button type="submit" disabled={isUploading}>
             {isUploading ? "アップロード中..." : "登録"}
           </button>

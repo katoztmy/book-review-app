@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoggedIn: localStorage.getItem("token") ? true : false,
   userName: "",
+  iconUrl: "",
 };
 
 const authSlice = createSlice({
@@ -20,10 +21,13 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.userName = action.payload;
     },
+    setIconUrl: (state, action) => {
+      state.iconUrl = action.payload;
+    },
   },
 });
 
-export const { login, logout, setUser } = authSlice.actions;
+export const { login, logout, setUser, setIconUrl } = authSlice.actions;
 
 export const fetchUserInfo = () => async (dispatch) => {
   const response = await fetch(
@@ -39,6 +43,7 @@ export const fetchUserInfo = () => async (dispatch) => {
 
   const data = await response.json();
   dispatch(setUser(data.name));
+  dispatch(setIconUrl(data.iconUrl));
 };
 
 export default authSlice.reducer;
