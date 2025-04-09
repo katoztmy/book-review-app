@@ -8,9 +8,10 @@ import { Link, useNavigate } from "react-router";
 import { fetchUserInfo, logout } from "./authSlice";
 
 export const BooksList = () => {
+  // paginationに関するロジックはPaginationの方に分けて関心を分離させる方が良い1
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  // paginationに関するロジックはPaginationの方に分けて関心を分離させる方が良い2
   const { books, offset } = useSelector((state) => state.books);
   const { isLoggedIn, userName, iconUrl } = useSelector((state) => state.auth);
   const isLastPage = books.length < 10;
@@ -29,6 +30,7 @@ export const BooksList = () => {
     }
   }, [dispatch, offset, isLoggedIn]);
 
+  // paginationに関するロジックはPaginationの方に分けて関心を分離させる方が良い3
   const handlePrevious = () => {
     if (offset === 0) return;
     if (offset >= 10) dispatch(setOffset(offset - 10));
@@ -96,6 +98,7 @@ export const BooksList = () => {
           offset={offset}
           onPrevious={handlePrevious}
           onNext={handleNext}
+          books={books}
         />
       </div>
     </>

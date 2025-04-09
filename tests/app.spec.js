@@ -9,6 +9,7 @@ describe("App", () => {
   // RTLのrender関数による出力が不明なときは screen.debug()を使う
   test("renders App component", () => {
     render(<App />);
+    screen.debug();
     expect(screen.getByPlaceholderText("メールアドレス")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("パスワード")).toBeInTheDocument();
     expect(
