@@ -17,7 +17,10 @@ export const BookDetail = () => {
   if (loading) {
     return (
       <div className="review-container">
-        <div className="loading">取得中です...</div>
+        <div className="flex flex-col items-center justify-center py-12">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-gray-600">取得中です...</p>
+        </div>
       </div>
     );
   }

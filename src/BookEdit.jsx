@@ -11,6 +11,13 @@ export const BookEdit = () => {
 
   return (
     <>
+      {/* フルスクリーンローディングオーバーレイ - isLoadingがtrueの時のみ表示 */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-white bg-opacity-70 flex items-center justify-center z-50">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <div className="review-container">
         <h1>レビュー投稿</h1>
         {apiError && (
@@ -57,8 +64,8 @@ export const BookEdit = () => {
             <input id="review" {...register("review", { required: true })} />
             {errors.review && <p className="error-message">感想は必須です</p>}
           </div>
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "送信中..." : "保存"}
+          <button type="submit" disabled={isLoading} className="relative">
+            保存
           </button>
         </form>
       </div>

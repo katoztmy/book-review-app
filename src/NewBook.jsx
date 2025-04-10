@@ -45,8 +45,6 @@ export const NewBook = () => {
         }
         return;
       }
-
-      alert("レビューを投稿しました！");
       setIsLoading(false);
       navigate("/books");
     } catch (error) {
@@ -60,6 +58,12 @@ export const NewBook = () => {
 
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 bg-white bg-opacity-70 flex items-center justify-center z-50">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <div className="review-container">
         <h1>レビュー投稿</h1>
         {apiError && (
@@ -106,8 +110,15 @@ export const NewBook = () => {
             <input id="review" {...register("review", { required: true })} />
             {errors.review && <p className="error-message">感想は必須です</p>}
           </div>
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "送信中..." : "投稿"}
+          <button type="submit" disabled={isLoading} className="relative">
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                <span>送信中...</span>
+              </div>
+            ) : (
+              "投稿"
+            )}
           </button>
         </form>
       </div>

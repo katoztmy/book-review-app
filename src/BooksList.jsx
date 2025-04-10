@@ -30,7 +30,7 @@ export const BooksList = () => {
     }
   }, [dispatch, offset, isLoggedIn]);
 
-  // paginationに関するロジックはPaginationの方に分けて関心を分離させる方が良い3
+  // paginationに関するロジックはPaginationの方に分けて関心を分離させる方が良い
   const handlePrevious = () => {
     if (offset === 0) return;
     if (offset >= 10) dispatch(setOffset(offset - 10));
@@ -43,6 +43,7 @@ export const BooksList = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(setOffset(0));
     navigate("/login");
   };
 

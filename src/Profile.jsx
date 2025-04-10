@@ -39,7 +39,6 @@ export const Profile = () => {
       alert("ユーザー情報を更新しました");
       navigate("/books");
     } catch (error) {
-      console.error("エラー:", error);
       alert(error.message);
     }
   };
