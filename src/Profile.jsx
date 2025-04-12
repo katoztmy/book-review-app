@@ -49,7 +49,7 @@ export const Profile = () => {
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">
             <p className="text-2xl">ユーザー名</p>
-            <input type="text" value={userName || ""} onChange={handleUser} />
+            <input type="text" value={userName} onChange={handleUser} />
           </label>
           <button type="submit" className="text-white">
             保存

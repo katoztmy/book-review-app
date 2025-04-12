@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import "./BookDetail.css";
 import { useBookDetail } from "./hooks/useBookDetail";
@@ -14,6 +13,7 @@ export const BookDetail = () => {
     navigate(-1);
   };
 
+  // 早期リターンってやつらしい
   if (loading) {
     return (
       <div className="review-container">

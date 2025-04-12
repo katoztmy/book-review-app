@@ -57,7 +57,7 @@ createRoot(document.getElementById("root")).render(
             }
           />
           <Route
-            path="books/:id"
+            path="detail/:id"
             element={
               <PrivateRoute>
                 <BookDetail />

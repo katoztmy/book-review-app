@@ -16,8 +16,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isLoggedIn = false;
       state.userName = "";
-      // これは副作用
-      localStorage.removeItem("token");
+      localStorage.removeItem("token"); //副作用
     },
     setUser: (state, action) => {
       state.userName = action.payload;

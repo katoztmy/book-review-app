@@ -13,6 +13,7 @@ export const BookItem = ({ book }) => {
       body: JSON.stringify({ selectBookId: book.id }),
     });
   };
+
   const handleEditClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -20,7 +21,7 @@ export const BookItem = ({ book }) => {
   };
   return (
     <Link
-      to={`/books/${book.id}`}
+      to={`/detail/${book.id}`}
       state={{ bookData: book }}
       onClick={submitLog}
     >
@@ -31,6 +32,7 @@ export const BookItem = ({ book }) => {
             : book.title}
         </h2>
         <p className="text-blue-600 hover:underline mb-3 text-sm">
+          url:{" "}
           <span>
             {book.url.length > 20
               ? book.url.substring(0, 20) + "..."
@@ -43,9 +45,20 @@ export const BookItem = ({ book }) => {
             ? book.reviewer.substring(0, 10) + "..."
             : book.reviewer}
         </p>
-        {book.isMine && <button onClick={handleEditClick}>編集</button>}
+        <p>
+          詳細情報:{" "}
+          {book.detail.length > 10
+            ? book.detail.substring(0, 10) + "..."
+            : book.detail}
+        </p>
+        {book.isMine && (
+          <button className="mt-2" onClick={handleEditClick}>
+            編集
+          </button>
+        )}
         <div className="mt-4 pt-4 border-t border-gray-100">
           <p className="text-gray-700">
+            感想:{" "}
             {book.review.length > 20
               ? book.review.substring(0, 20) + "..."
               : book.review}
