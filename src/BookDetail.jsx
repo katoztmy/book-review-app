@@ -1,19 +1,16 @@
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import "./BookDetail.css";
 import { useBookDetail } from "./hooks/useBookDetail";
 
 export const BookDetail = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const bookData = location.state?.bookData;
-
-  const { book, loading, error } = useBookDetail(bookData.id);
+  const { id } = useParams();
+  const { book, loading, error } = useBookDetail(id);
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  // 早期リターンってやつらしい
   if (loading) {
     return (
       <div className="review-container">
@@ -36,30 +33,28 @@ export const BookDetail = () => {
     );
   }
 
-  const displayData = book.id ? book : bookData;
-
   return (
     <div className="review-container">
       <h1>レビュー詳細</h1>
 
       <div className="form-group">
         <label htmlFor="title">タイトル</label>
-        <p>{displayData.title}</p>
+        <p>{book.title}</p>
       </div>
 
       <div className="form-group">
         <label htmlFor="url">URL</label>
-        <p>{displayData.url}</p>
+        <p>{book.url}</p>
       </div>
 
       <div className="form-group">
         <label htmlFor="detail">書籍詳細情報</label>
-        <p>{displayData.detail}</p>
+        <p>{book.detail}</p>
       </div>
 
       <div className="form-group">
         <label htmlFor="review">読んだ感想</label>
-        <p>{displayData.review}</p>
+        <p>{book.review}</p>
       </div>
 
       <button onClick={handleBack} className="back-button">

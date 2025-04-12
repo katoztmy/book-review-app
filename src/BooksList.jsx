@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Pagination } from "./Pagination";
 import { fetchBooks, setOffset } from "./BookSlice";
 import "./BooksList.css";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchUserInfo, logout } from "./authSlice";
 
 export const BooksList = () => {
