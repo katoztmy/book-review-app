@@ -1,13 +1,11 @@
-import { useLocation, useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import "./BookEdit.css";
 import { useBookEdit } from "./hooks/useBookEdit";
 
 export const BookEdit = () => {
-  const location = useLocation();
-  const bookData = location.state?.bookData;
-
+  const { id } = useParams();
   const { apiError, isLoading, handleReview, register, handleSubmit, errors } =
-    useBookEdit(bookData);
+    useBookEdit(id);
 
   return (
     <>

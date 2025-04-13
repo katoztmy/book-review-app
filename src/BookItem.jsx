@@ -20,11 +20,7 @@ export const BookItem = ({ book }) => {
     navigate(`/edit/${book.id}`, { state: { bookData: book } });
   };
   return (
-    <Link
-      to={`/detail/${book.id}`}
-      state={{ bookData: book }}
-      onClick={submitLog}
-    >
+    <Link to={`/detail/${book.id}`} onClick={submitLog}>
       <li className="bg-white hover:shadow-lg p-6 min-w-[400px] h-64">
         <h2 className="text-xl font-semibold mb-2 text-gray-800">
           {book.title.length > 15
