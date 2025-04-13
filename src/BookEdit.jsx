@@ -1,11 +1,31 @@
 import { useParams } from "react-router-dom";
 import "./BookEdit.css";
 import { useBookEdit } from "./hooks/useBookEdit";
+import { useNavigate } from "react-router-dom";
 
 export const BookEdit = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { apiError, isLoading, handleReview, register, handleSubmit, errors } =
     useBookEdit(id);
+  const handleDelete = async () => {
+    await fetch(`https://railway.bookreview.techtrain.dev/books/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("削除に失敗しました");
+        }
+        navigate("/books");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
   return (
     <>
@@ -63,6 +83,14 @@ export const BookEdit = () => {
           </div>
           <button type="submit" disabled={isLoading} className="relative">
             保存
+          </button>
+          <button
+            type="button"
+            disabled={isLoading}
+            onClick={handleDelete}
+            className="delete-button"
+          >
+            削除
           </button>
         </form>
       </div>
